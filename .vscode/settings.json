@@ -1,0 +1,46 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "make",
+            "command": "make",
+            "args": [
+                "-C",
+                "%WORKSPACE_FOLDER%",
+                "-j",
+                "6",
+                "-f",
+                "Makefile"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "Run Makefile",
+            "tools": [
+                "make"
+            ]
+        }
+    ],
+    "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/final",
+    "files.associations": {
+        "*.tex": "latex"
+    },
+    "[latex]": {
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 100,
+        "editor.rulers": [
+            100
+        ]
+    },
+    "[tex]": {
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 100,
+        "editor.rulers": [
+            100
+        ]
+    },
+    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.build.enableMagicComments": true,
+    "cmake.ignoreCMakeListsMissing": true
+}
