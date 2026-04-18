@@ -33,12 +33,12 @@ void f() {
 		\item C++26 introduces the concept of \textmark{erroneous behavior}.
       \begin{itemize}
         \item Well-defined behavior that implementations are recommended to diagnose and report.
-        \item A variable takes on a well-defined but implementation-defined value.
+        \item Reading an uninitialized variable yields an implementation-defined ("erroneous") value.
       \end{itemize}
 \begin{lstlisting}
 void f() {
   int count;
-  ++count; // Erroneous behavior: count is initialized to an implementation-defined value
+  ++count; // Erroneous behavior: reading count yields an implementation-defined value
   std::println("count = {}", count);
 }
 \end{lstlisting}
