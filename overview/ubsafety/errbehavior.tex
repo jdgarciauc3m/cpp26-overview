@@ -1,0 +1,81 @@
+\subsection{Erroneous behavior}
+
+\begin{frame}[t,fragile]{Uninitialized variables}
+	\begin{itemize}
+		\item \textmark{Uninitialized variables}: Reading an uninitialized scalar (e.g. \texttt{int}) is undefined behavior.
+		      \begin{lstlisting}
+void f() {
+  int count;
+  ++count; // undefined behavior
+  std::println("count = {}", count);
+}
+\end{lstlisting}
+
+		      \mode<presentation>{\vfill\pause}
+		\item \textmark{Traditional mitigations}:
+		      \begin{itemize}
+			      \item Static analysis tools (e.g., Clang-Tidy, PVS-Studio)
+			      \item Compiler warnings (e.g., -Wuninitialized)
+			      \item Code reviews and manual inspections
+		      \end{itemize}
+		      \begin{lstlisting}
+void f() {
+  int count = 0; // initialize count to a known value
+  ++count; // defined behavior
+  std::println("count = {}", count);
+}
+\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{C++26: Erroneous behavior}
+	\begin{itemize}
+		\item C++26 introduces the concept of \textmark{erroneous behavior}.
+      \begin{itemize}
+        \item Well-defined behavior that implementations are recommended to diagnose and report.
+        \item Reading an uninitialized variable yields an implementation-defined ("erroneous") value.
+      \end{itemize}
+\begin{lstlisting}
+void f() {
+  int count;
+  ++count; // Erroneous behavior: reading count yields an implementation-defined value
+  std::println("count = {}", count);
+}
+\end{lstlisting}
+
+    \mode<presentation>{\vfill\pause}
+		\item Benefits of diagnosing erroneous behavior:
+      \begin{itemize}
+        \item Early detection of potential issues during development.
+        \item Improved code quality and reliability.
+        \item Encourages developers to write safer code by avoiding reliance on implementation-defined behavior.
+      \end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Erroneous behavior: Implementation and diagnostics}
+\begin{itemize}
+  \item Implementations are encouraged to provide diagnostics for erroneous behavior.
+    \begin{itemize}
+      \item Compiler warnings or errors when detecting uninitialized variable usage.
+      \item Runtime checks that can detect and report erroneous behavior during execution.
+    \end{itemize}
+\begin{lstlisting}
+void f() {
+  int count;
+  ++count; // Compiler warning: 'count' is uninitialized
+  std::println("count = {}", count);
+}
+\end{lstlisting}
+
+    \mode<presentation>{\vfill\pause}
+    \item An escape-hatch attribute for intentional non-initialization:
+\begin{lstlisting}
+void f() {
+  [[indeterminate]] std::array<int, 1024> buffer; // Buffer is intentionally left uninitialized
+  read_from_file(buffer); // Function that fills the buffer with data
+  //...
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
