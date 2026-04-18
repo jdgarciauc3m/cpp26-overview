@@ -69,7 +69,7 @@ void f() {
 \end{lstlisting}
 
     \mode<presentation>{\vfill\pause}
-    \item Escape attribute when non-initialization is intentional:
+    \item An escape-hatch attribute for intentional non-initialization:
 \begin{lstlisting}
 void f() {
   [[indeterminate]] std::array<int, 1024> buffer; // Buffer is intentionally left uninitialized
