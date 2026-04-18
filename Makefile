@@ -6,6 +6,7 @@ CONFIG_PARTS= \
 	metadata.tex \
 	license-cc.tex \
 	config/* \
+	$(LOGOS) \
 
 LOGOS=logos/*
 
