@@ -1,0 +1,17 @@
+OVERVIEW_DIR=overview
+OVERVIEW_PARTS= \
+	$(OVERVIEW_DIR)/*.tex
+
+include $(OVERVIEW_DIR)/ubsafety/Makefile.def
+include $(OVERVIEW_DIR)/reflection/Makefile.def
+include $(OVERVIEW_DIR)/contracts/Makefile.def
+include $(OVERVIEW_DIR)/sendrecv/Makefile.def
+include $(OVERVIEW_DIR)/parallel/Makefile.def
+
+GUIDE_PARTS += $(OVERVIEW_PARTS)
+
+OVERVIEW_PDF=$(OVERVIEW_DIR).pdf
+FINAL_OVERVIEW_PDF=$(FINAL_DIR)/$(OVERVIEW_PDF)
+
+ALL_SLIDES_FINAL_PDF += \
+	$(FINAL_OVERVIEW_PDF)
