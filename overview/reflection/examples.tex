@@ -75,7 +75,6 @@ struct struct_of_vectors_impl {
         auto mem_descr = std::meta::data_member_spec(vector_type, {.name = std::meta::identifier_of(member)});
         new_members.push_back(mem_descr);
     }
-    
     std::meta::define_aggregate(^^impl, new_members); // Inject members in impl
   }
 };
