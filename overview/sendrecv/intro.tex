@@ -3,12 +3,13 @@
 \begin{frame}[t,fragile]{Senders and receivers}
   \begin{itemize}
     \item The execution library provides a set of concepts and utilities for asynchronous programming.
-    
+
     \mode<presentation>{\vfill\pause}
     \item \textemph{Key concepts}:
       \begin{itemize}
-        \item \textgood{Senders}: Objects that represent asynchronous operations. They can be invoked to start the operation.
-        \item \textgood{Receivers}: Objects that can be invoked when an asynchronous operation completes, to handle the result or any errors.
+        \item \textgood{Senders}: Objects that represent asynchronous operations.
+        \item \textgood{Receivers}: OObjects that receive completion signals from an asynchronous operation.
+        \item \textgood{Schedulers}: Objects that represent execution contexts for asynchronous operations.
       \end{itemize}
 
     \mode<presentation>{\vfill\pause}
@@ -36,7 +37,6 @@
       \begin{itemize}
         \item Represent asynchronous operations.
         \item Can be chained with other senders to create complex asynchronous workflows.
-        \item Factory for receivers and operation states.
       \end{itemize}
 
     \mode<presentation>{\vfill\pause}
@@ -78,10 +78,10 @@ int main() {
 \begin{lstlisting}
 #include <execution>
 #include <iostream>
-#include <thread>
+#include "exec/static_thread_pool.hpp" // Not standard
 
 int main() {
-  auto context = std::execution::thread_pool_scheduler{};
+  auto context = stdexec::thread_pool_scheduler{}; // Not standard
   std::execution::scheduler auto sch = context.get_scheduler();
 
   std::execution::sender auto begin = std::execution::schedule(sch);
@@ -105,9 +105,10 @@ int main() {
 \begin{lstlisting}
 #include <execution>
 #include <iostream>
+#include "exec/static_thread_pool.hpp" // Not standard
 
 int main() {
-  auto context = std::execution::thread_pool_scheduler{};
+  auto context = stdexec::thread_pool_scheduler{}; // Not standard
   std::execution::scheduler auto sch = context.get_scheduler();
 
   std::execution::sender auto work = std::execution::schedule(sch)
