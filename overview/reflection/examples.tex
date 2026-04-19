@@ -22,8 +22,8 @@ constexpr std::string_view enum_to_string(E value) {
 \begin{lstlisting}
 void f() {
   enum class color : int { red, green, blue };
-  std::println("color::red = {}", enum_to_string(color::red)); // Output: Color::red = red
-  std::println("color(42) = {}", enum_to_string(color(42))); // Output: Color(42) = <unnamed>
+  std::println("color::red = {}", enum_to_string(color::red)); // Output: color::red = red
+  std::println("color(42) = {}", enum_to_string(color(42))); // Output: color(42) = <unnamed>
   color c = color::green;
   std::println("c = {}", enum_to_string(c)); // Output: c = green
 }
