@@ -1,0 +1,43 @@
+\subsection{Hardened standard library}
+
+\begin{frame}[t,fragile]{Hardened standard library}
+  \begin{itemize}
+    \item C++26 introduces a \textmark{hardened standard library} to mitigate common sources of undefined behavior.
+    \item Key features of the hardened standard library:
+      \begin{itemize}
+        \item Runtime checks for out-of-bounds access in containers (e.g., std::vector, std::array).
+        \item Detection of use-after-free and double deletion in dynamic memory management.
+        \item Enhanced diagnostics for common pitfalls.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \begin{itemize}
+      \item Practical Security in Production\\
+      Hardening the C++ Standard Library at massive scale\\
+      \textgood{ACM Queue}, 23(5), 2025.\\
+      \url{https://queue.acm.org/detail.cfm?id=3773097}
+
+      \item Retrofitting spatial safety to hundreds of millions of lines of C++.\\
+      Google Blog, 2024.\\
+      \url{https://security.googleblog.com/2024/11/retrofitting-spatial-safety-to-hundreds.html}
+
+        \begin{itemize}
+          \item Performance impact in \textmark{real case studies}: 0.3\%.
+        \end{itemize}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Hardened checks}
+\begin{itemize}
+  \item \cppcode{std::span}: \cppcode{operator[]}, \cppcode{front()}, \cppcode{back()}, \cppcode{first()}, \cppcode{last()}, \cppcode{subspan()}, and constructors
+  \item \cppcode{std::string_view}: \cppcode{operator[]}, \cppcode{front()}, \cppcode{back()}, \cppcode{remove_prefix()}, \cppcode{remove_suffix()}
+  \item \cppcode{std::vector}, \cppcode{std::array}: \cppcode{operator[]}, \cppcode{front()}, \cppcode{back()}, \cppcode{pop_front()}, \cppcode{pop_back()}
+  \item \cppcode{std::string}: \cppcode{operator[]}, \cppcode{front()}, \cppcode{back()}, \cppcode{pop_back()}
+  \item \cppcode{std::mdspan}: \cppcode{operator[]}, and constructors
+  \item \cppcode{std::bitset}: \cppcode{operator[]}
+  \item \cppcode{std::valarray}: \cppcode{operator[]}
+  \item \cppcode{std::optional}: \cppcode{operator->}, \cppcode{operator*}
+  \item \cppcode{std::expected}: \cppcode{operator->}, \cppcode{operator*}, \cppcode{error}
+\end{itemize}
+\end{frame}
