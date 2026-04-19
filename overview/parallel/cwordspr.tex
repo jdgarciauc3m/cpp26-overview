@@ -61,7 +61,7 @@
     auto result =
         std::transform_reduce(std::begin(text), std::prev(std::end(text)), 
         std::next(std::begin(text)), 
-        0ZU,
+        0UZ,
         std::plus{}, 
         is_new_word);
     return result + is_letter(text[0]);
