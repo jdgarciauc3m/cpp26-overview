@@ -76,7 +76,7 @@ auto it = std::ranges::find_if(std::execution::par,
     [](double x) { return x>100; });
 \end{lstlisting}
 
-     \item \textmark{Warning}: The temporary variable \cppcode{compute} is necessary to avoid a dangling reference. 
+     \item \textmark{Warning}: The temporary variable \cppcode{compute} is necessary to avoid a dangling iterator/result. 
 \begin{lstlisting}
 std::vector<double> v = get_values();
 auto it = std::ranges::find_if(std::execution::par, 
