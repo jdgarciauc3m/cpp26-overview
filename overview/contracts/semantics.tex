@@ -1,0 +1,43 @@
+\subsection{Contract semantics}
+
+\begin{frame}[t,fragile]{What happens when a contract assertion fails?}
+  \begin{itemize}
+    \item Different \textemph{evaluation semantics}:
+      \begin{itemize}
+        \mode<presentation>{\vfill\pause}
+        \item \textgood{Ignore}: The contract assertion is ignored, and the program \textgood{continues} execution as if the assertion were not present.
+
+        \mode<presentation>{\vfill\pause}
+        \item \textgood{Enforce}: The contract assertion is enforced, and if the assertion fails, the program \textbad{terminates} after executing a \textmark{violation handler}.
+
+        \mode<presentation>{\vfill\pause}
+        \item \textgood{Quick enforce}: The contract assertion is enforced, and if the assertion fails, the program \textbad{terminates} immediately without executing a \textmark{violation handler}.
+
+        \mode<presentation>{\vfill\pause}
+        \item \textgood{Observe}: The contract assertion is observed, and if the assertion fails, the program \textbad{continues} execution after executing a \textmark{violation handler}.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Violation handlers}
+  \begin{itemize}
+    \item A \textmark{violation handler} is a function that is executed when a contract assertion fails.
+      \begin{itemize}
+        \item A single global handler provided at link time.
+  \begin{lstlisting}
+  void ::handle_contract_violation(std::contracts::contract_violation_info const& info);
+  \end{lstlisting}
+
+        \item Members of \cppcode{contract_violation_info}:
+          \begin{itemize}
+            \item \cppcode{location()}: Source location of the failed assertion.
+            \item \cppcode{comment()}: Textual representation of predicate.
+            \item \cppcode{detection_mode()}: Evaluation to \cppcode{false} or exception thrown.
+            \item \cppcode{exception_ptr()}: Exception pointer if an exception was thrown.
+            \item \cppcode{kind()}: Assertion kind (pre, post or contract assertion).
+            \item \cppcode{semantic()}: Evaluation semantics used.
+            \item \cppcode{is_terminating()}: Whether the selected semantics is terminating.
+          \end{itemize}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
