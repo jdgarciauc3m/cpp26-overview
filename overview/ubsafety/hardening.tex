@@ -43,3 +43,32 @@
   \item \cppcode{std::expected}: \cppcode{operator->}, \cppcode{operator*}, \cppcode{error()}
 \end{itemize}
 \end{frame}
+
+\begin{frame}[t,fragile]{Example}
+  \begin{itemize}
+    \item Traditional C++ code with undefined behavior:
+\begin{lstlisting}
+void f() {
+  std::vector<int> v = {1, 2, 3};
+  for (std::size_t i=0; i<=v.size(); ++i) { // out-of-bounds access when i == v.size()
+    std::println("v[{}] = {}", i, v[i]);
+  }
+  for (int i=0; auto x : v) {
+    std::println("v[{}] = {}", i, x);
+    ++i;
+  }
+}
+\end{lstlisting}
+
+  \item Recompiling with hardened standard library:
+\begin{lstlisting}[style=terminal,basicstyle=\ttfamily\tiny]
+$ g++ -std=c++26 -hardened -o test test.cpp
+$ ./test
+/cefs/22/22e6cdc013c8541ce3d1548e_consolidated/compilers_c++_x86_gcc_15.2.0/include/c++/15.2.0/bits/stl_vector.h:1263: 
+constexpr std::vector< <template-parameter-1-1>, <template-parameter-1-2> >::reference 
+std::vector< <template-parameter-1-1>, <template-parameter-1-2> >::operator[](size_type) [with _Tp = int; 
+_Alloc = std::allocator<int>; reference = int&; size_type = long unsigned int]: Assertion '__n < this->size()' failed.
+Program terminated with signal: SIGSEGV
+\end{lstlisting}
+  \end{itemize}
+\end{frame}
