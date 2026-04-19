@@ -43,7 +43,7 @@ auto it = std::find_if(std::execution::par, v.begin(), v.end(), [](double x) { r
     \item \textbad{Drawbacks}:
     \begin{itemize}
         \item Three separate algorithms, each with its own overhead.
-        \item Temporary computations might be skipped.
+        \item Unnecessary temporary computations cannot be avoided or short-circuited.
     \end{itemize}
 
     \mode<presentation>{\vfill\pause}
