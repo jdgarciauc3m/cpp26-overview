@@ -69,7 +69,7 @@ struct struct_of_vectors_impl {
   consteval {
     auto ctx = std::meta::access_context::current();
     std::vector<std::meta::info> old_members = std::meta::nonstatic_data_members_of(^^T, ctx);
-    std::vector<std::meta::info> new_members = {};  
+    std::vector<std::meta::info> new_members = {};
     for (std::meta::info member : old_members) {
         auto vector_type = std::meta::substitute(^^std::vector, { std::meta::type_of(member) });
         auto mem_descr = std::meta::data_member_spec(vector_type, {.name = std::meta::identifier_of(member)});
