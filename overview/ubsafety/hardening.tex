@@ -47,10 +47,10 @@
 \begin{frame}[t,fragile]{Example}
   \begin{itemize}
     \item Traditional C++ code with undefined behavior:
-\begin{lstlisting}
+\begin{lstlisting}[moredelim={[is][\color{red}\textbf]{@}{@}}]
 void f() {
   std::vector<int> v = {1, 2, 3};
-  for (std::size_t i=0; i<=v.size(); ++i) { // out-of-bounds access when i == v.size()
+  for (std::size_t i=0; @i<=v.size()@; ++i) {
     std::println("v[{}] = {}", i, v[i]);
   }
   for (int i=0; auto x : v) {
@@ -60,7 +60,8 @@ void f() {
 }
 \end{lstlisting}
 
-  \item Recompiling with hardened standard library:
+  \mode<presentation>{\vfill\pause}
+    \item With hardened standard library, out-of-bounds access is diagnosed and reported:
 \begin{lstlisting}[style=terminal,basicstyle=\ttfamily\tiny]
 $ g++ -std=c++26 -hardened -o test test.cpp
 $ ./test
