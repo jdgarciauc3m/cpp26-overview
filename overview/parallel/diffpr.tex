@@ -96,7 +96,7 @@ ranges::transform(Ep&& exec, R&& r, OutR&& result_r, F op, Proj proj = {});
     \begin{itemize}
       \item Cannot be used with ranges that do not have a known size.
       \item Cannot be used with some views (e.g., \cppcode{std::views::filter}).
-      \item When different sizes are involved processing stops when the end of the shorter range is reached.
+      \item When different sizes are involved, processing stops when the end of the shorter range is reached.
     \end{itemize}
 
   \mode<presentation>{\vfill\pause}
