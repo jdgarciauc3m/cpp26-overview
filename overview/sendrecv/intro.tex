@@ -82,13 +82,13 @@ int main() {
 
 int main() {
   auto context = std::execution::thread_pool_scheduler{};
-  std::scheduler auto sch = context.get_scheduler();
+  std::execution::scheduler auto sch = context.get_scheduler();
 
-  std::sender auto begin = std::execution::just(42);
-  std::sender auto multiply = std::execution::then(begin, [](int value) {
+  std::execution::sender auto begin = std::execution::just(42);
+  std::execution::sender auto multiply = std::execution::then(begin, [](int value) {
     return value * 2;
   });
-  std::sender auto print = std::execution::then(multiply, [](int result) {
+  std::execution::sender auto print = std::execution::then(multiply, [](int result) {
     std::cout << "Result: " << result << std::endl;
   });
   std::execution::sync_wait(std::move(print));
@@ -105,9 +105,9 @@ int main() {
 
 int main() {
   auto context = std::execution::thread_pool_scheduler{};
-  std::scheduler auto sch = context.get_scheduler();
+  std::execution::scheduler auto sch = context.get_scheduler();
 
-  std::sender auto work = std::execution::just(42)
+  std::execution::sender auto work = std::execution::just(42)
     | std::execution::then([](int value) {
         return value * 2;
       })
