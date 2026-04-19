@@ -30,13 +30,13 @@
 
         \item Members of \cppcode{contract_violation_info}:
           \begin{itemize}
-            \item \cppcode{location()}: The source location of the failed assertion.
-            \item \cppcode{comment()}: Representation of predicate.
-            \item \cppcode{detection_mode()}: Evaluation false or exception thrown.
-            \item \cppcode{exception_ptr()}: The exception pointer if an exception was thrown.
-            \item \cppcode{kind()}: Is pre, post or assertion.
+            \item \cppcode{location()}: Source location of the failed assertion.
+            \item \cppcode{comment()}: Textual representation of predicate.
+            \item \cppcode{detection_mode()}: Evaluation to \cppcode{false} or exception thrown.
+            \item \cppcode{exception_ptr()}: Exception pointer if an exception was thrown.
+            \item \cppcode{kind()}: Assertion kind (pre, post or contract assertion).
             \item \cppcode{semantic()}: Evaluation semantics used.
-            \item \cppcode{is_terminating()}: Semantics is terminating.
+            \item \cppcode{is_terminating()}: Whether the semantics is terminating.
           \end{itemize}
       \end{itemize}
   \end{itemize}
