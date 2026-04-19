@@ -1,0 +1,50 @@
+\subsection{Contracts programming basics}
+
+\begin{frame}[t,fragile]{From assertions to contract assertions}
+\begin{itemize}
+  \item Computing average grades (before C++26):
+\begin{lstlisting}
+double average(const std::vector<double>& grades) {
+  assert(not grades.empty()); // Precondition
+  double sum = 0.0;
+  for (double grade : grades) {
+    assert(grade >= 0.0 and grade <= 100.0); // Check
+    sum += grade;
+  }
+  auto result = sum / grades.size();
+  assert(result >= 0.0 and result <= 100.0); // Postcondition
+  return result;
+}
+\end{lstlisting}
+
+  \item But remember:
+    \begin{itemize}
+      \item \cppcode{assert} is a macro.
+      \item Assertions can be disabled in production builds.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Contract assertions in C++26}
+\begin{itemize}
+  \item C++26 introduces \textmark{contract assertions} to provide a standardized way to specify and enforce preconditions, postconditions, and invariants.
+\begin{lstlisting}
+double average(const std::vector<double>& grades) 
+  pre(not grades.empty()) // Precondition
+  post(result: result >= 0.0 and result <= 100.0) // Postcondition
+{
+  double sum = 0.0;
+  for (double grade : grades) {       
+    contract assert(grade >= 0.0 and grade <= 100.0); // Check
+    sum += grade;
+  }
+  return sum / grades.size();
+}
+\end{lstlisting}
+  \item Benefits of contract assertions:
+    \begin{itemize}
+      \item Standardized syntax and semantics for expressing contracts.
+      \item Present in both debug and release builds, ensuring that contract violations are always checked.
+    \end{itemize}
+\end{itemize}
+\end{frame}
