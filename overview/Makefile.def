@@ -2,6 +2,7 @@ OVERVIEW_DIR=overview
 OVERVIEW_PARTS= \
 	$(OVERVIEW_DIR)/*.tex
 
+include $(OVERVIEW_DIR)/intro/Makefile.def
 include $(OVERVIEW_DIR)/ubsafety/Makefile.def
 include $(OVERVIEW_DIR)/reflection/Makefile.def
 include $(OVERVIEW_DIR)/contracts/Makefile.def
