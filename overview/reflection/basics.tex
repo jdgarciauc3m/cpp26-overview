@@ -1,0 +1,48 @@
+\subsection{Reflection basics}
+
+\begin{frame}[t,fragile]{Reflection basics}
+  \begin{itemize}
+    \item \textmark{Reflection}: Allows compile-time introspection of types and their members.
+      \begin{itemize}
+        \item Compile-time access to type information, including member variables, functions, and base classes.
+        \item New opaque type \cppcode{std::meta::info} to represent type information.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textgood{Benefits}:
+      \begin{itemize}
+        \item Enables powerful metaprogramming techniques and code generation at compile time.
+        \item Facilitates the development of libraries and frameworks that can adapt to user-defined types without requiring manual boilerplate code.
+        \item Improves code maintainability and reduces the likelihood of errors by automating repetitive tasks.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Basic operations}
+  \begin{itemize}
+    \item \textmark{Reflection} operator:
+\begin{lstlisting}
+void f() {
+  constexpr auto r1 = ^^int;
+  constexpr std::meta::info r2 = ^^std::vector<int>;
+  //...
+}
+\end{lstlisting}
+
+  \mode<presentation>{\vfill\pause}
+  \item \textmark{Splicing} operator:
+\begin{lstlisting}
+void f() {
+  typename[:^^std::vector<int>:] vec; // vec is of type std::vector<int>
+  //...
+}
+\end{lstlisting}
+
+  \mode<presentation>{\vfill\pause}
+  \item Type \cppcode{std::meta::info}:
+    \begin{itemize}
+      \item Represents type information at compile time.
+      \item Provides operations to query type properties.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
