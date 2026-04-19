@@ -35,7 +35,7 @@ double average(const std::vector<double>& grades)
 {
   double sum = 0.0;
   for (double grade : grades) {       
-    contract assert(grade >= 0.0 and grade <= 100.0); // Check
+    contract_assert(grade >= 0.0 and grade <= 100.0); // Check
     sum += grade;
   }
   return sum / grades.size();
