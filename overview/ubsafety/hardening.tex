@@ -6,8 +6,8 @@
     \item Key features of the hardened standard library:
       \begin{itemize}
         \item Runtime checks for out-of-bounds access in containers (e.g., std::vector, std::array).
-        \item Detection of use-after-free and double deletion in dynamic memory management.
-        \item Enhanced diagnostics for common pitfalls.
+        \item Runtime checks for violated library preconditions, such as invalid indexing and access to empty containers/views.
+        \item Enhanced diagnostics for bounds errors and other contract/precondition violations.
       \end{itemize}
 
     \mode<presentation>{\vfill\pause}
