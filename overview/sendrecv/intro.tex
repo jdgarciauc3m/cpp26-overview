@@ -1,0 +1,123 @@
+\subsection{Execution library}
+
+\begin{frame}[t,fragile]{Senders and receivers}
+  \begin{itemize}
+    \item The execution library provides a set of concepts and utilities for asynchronous programming.
+    
+    \mode<presentation>{\vfill\pause}
+    \item \textemph{Key concepts}:
+      \begin{itemize}
+        \item \textgood{Senders}: Objects that represent asynchronous operations. They can be invoked to start the operation.
+        \item \textgood{Receivers}: Objects that can be invoked when an asynchronous operation completes, to handle the result or any errors.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textemph{Advantages}:
+      \begin{itemize}
+        \item \textmark{Structured concurrency}: Clear begin and end points for asynchronous operations.
+        \item \textmark{Decoupling} the \textgood{computation} from the \textgood{execution context}.
+        \item \textmark{Decoupling} the \textgood{initiation} of asynchronous operations from their \textgood{completion} handling.
+        \item \textmark{High performance}: Avoids heap allocations.
+        \item \textmark{Universal composition}: Flexible composition of computation.
+      \end{itemize}
+  \end{itemize}
+\end{frame} 
+
+\begin{frame}[t,fragile]{Execution framework}
+  \begin{itemize}
+    \item \textmark{Schedulers}
+      \begin{itemize}
+        \item Handle to a computation resource (e.g., thread pool, event loop).
+        \item Can be used to specify where an asynchronous operation should execute.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Senders}
+      \begin{itemize}
+        \item Represent asynchronous operations.
+        \item Can be chained with other senders to create complex asynchronous workflows.
+        \item Factory for receivers and operation states.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Receivers}
+      \begin{itemize}
+        \item Handle the completion of asynchronous operations.
+        \item Can be invoked with the result of the operation or an error.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Operation states}
+      \begin{itemize}
+        \item Created by senders when they are started.
+        \item Represent the state of an asynchronous operation.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Example usage}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+
+int main() {
+  auto work = std::execution::just(42) | std::execution::then([](int value) {
+    return value * 2;
+  });
+
+  std::execution::sync_wait(work | std::execution::then([](int result) {
+    std::cout << "Result: " << result << std::endl;
+  }));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Using a thread pool scheduler}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+#include <thread>
+
+int main() {
+  auto context = std::execution::thread_pool_scheduler{};
+  std::scheduler auto sch = context.get_scheduler();
+
+  std::sender auto begin = std::execution::just(42);
+  std::sender auto multiply = std::execution::then(begin, [](int value) {
+    return value * 2;
+  });
+  std::sender auto print = std::execution::then(multiply, [](int result) {
+    std::cout << "Result: " << result << std::endl;
+  });
+  std::execution::sync_wait(std::move(print));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Simplifying notation with pipeline operator}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+
+int main() {
+  auto context = std::execution::thread_pool_scheduler{};
+  std::scheduler auto sch = context.get_scheduler();
+
+  std::sender auto work = std::execution::just(42)
+    | std::execution::then([](int value) {
+        return value * 2;
+      })
+    | std::execution::then([](int result) {
+        std::cout << "Result: " << result << std::endl;
+      });
+
+  std::execution::sync_wait(std::move(work));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
