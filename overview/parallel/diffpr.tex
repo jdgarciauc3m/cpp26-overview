@@ -77,7 +77,7 @@ ranges::transform(Ep&& exec, R&& r, OutR&& result_r, F op, Proj proj = {});
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Parallel algorithms require bounded ranges}
+\begin{frame}[t,fragile]{Parallel algorithms require sized ranges/sentinels}
 \begin{itemize}
   \item New iterator based parallel algorithms require sized sentinels.
     \begin{itemize}
