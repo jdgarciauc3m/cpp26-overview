@@ -8,6 +8,7 @@ include $(OVERVIEW_DIR)/reflection/Makefile.def
 include $(OVERVIEW_DIR)/contracts/Makefile.def
 include $(OVERVIEW_DIR)/sendrecv/Makefile.def
 include $(OVERVIEW_DIR)/parallel/Makefile.def
+include $(OVERVIEW_DIR)/summary/Makefile.def
 
 GUIDE_PARTS += $(OVERVIEW_PARTS)
 
