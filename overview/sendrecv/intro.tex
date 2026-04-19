@@ -1,0 +1,131 @@
+\subsection{Execution library}
+
+\begin{frame}[t,fragile]{Senders and receivers}
+  \begin{itemize}
+    \item The execution library provides a set of concepts and utilities for asynchronous programming.
+
+    \mode<presentation>{\vfill\pause}
+    \item \textemph{Key concepts}:
+      \begin{itemize}
+        \item \textgood{Senders}: Objects that represent asynchronous operations.
+        \item \textgood{Receivers}: Objects that receive completion signals from an asynchronous operation.
+        \item \textgood{Schedulers}: Objects that represent execution contexts for asynchronous operations.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textemph{Advantages}:
+      \begin{itemize}
+        \item \textmark{Structured concurrency}: Clear begin and end points for asynchronous operations.
+        \item \textmark{Decoupling} the \textgood{computation} from the \textgood{execution context}.
+        \item \textmark{Decoupling} the \textgood{initiation} of asynchronous operations from their \textgood{completion} handling.
+        \item \textmark{High performance}: Can avoid heap allocations, depending on the sender chain and implementation.
+        \item \textmark{Universal composition}: Flexible composition of computation.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Execution framework}
+  \begin{itemize}
+    \item \textmark{Schedulers}
+      \begin{itemize}
+        \item Handle to a computation resource (e.g., thread pool, event loop).
+        \item Can be used to specify where an asynchronous operation should execute.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Senders}
+      \begin{itemize}
+        \item Represent asynchronous operations.
+        \item Can be chained with other senders to create complex asynchronous workflows.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Receivers}
+      \begin{itemize}
+        \item Handle the completion of asynchronous operations.
+        \item Can be invoked with a result, an error, or a stopped/cancelled signal.
+      \end{itemize}
+
+    \mode<presentation>{\vfill\pause}
+    \item \textmark{Operation states}
+      \begin{itemize}
+        \item Created when a sender is connected to a receiver, and then started.
+        \item Represent the state of an asynchronous operation.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Example usage}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+
+int main() {
+  auto work = std::execution::just(42) | std::execution::then([](int value) {
+    return value * 2;
+  });
+
+  std::execution::sync_wait(work | std::execution::then([](int result) {
+    std::cout << "Result: " << result << std::endl;
+  }));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Using a thread pool scheduler}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+#include <utility>
+#include "exec/static_thread_pool.hpp" // Not standard
+
+int main() {
+  auto context = stdexec::thread_pool_scheduler{}; // Not standard
+  std::execution::scheduler auto sch = context.get_scheduler();
+
+  std::execution::sender auto begin = std::execution::schedule(sch);
+  std::execution::sender auto start = std::execution::then(begin, [] {
+    return 42;
+  });
+  std::execution::sender auto multiply = std::execution::then(start, [](int value) {
+    return value * 2;
+  });
+  std::execution::sender auto print = std::execution::then(multiply, [](int result) {
+    std::cout << "Result: " << result << std::endl;
+  });
+  std::execution::sync_wait(std::move(print));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Simplifying notation with pipeline operator}
+\begin{lstlisting}
+#include <execution>
+#include <iostream>
+#include <utility>
+#include "exec/static_thread_pool.hpp" // Not standard
+
+int main() {
+  auto context = stdexec::thread_pool_scheduler{}; // Not standard
+  std::execution::scheduler auto sch = context.get_scheduler();
+
+  std::execution::sender auto work = std::execution::schedule(sch)
+    | std::execution::then([] {
+        return 42;
+      })
+    | std::execution::then([](int value) {
+        return value * 2;
+      })
+    | std::execution::then([](int result) {
+        std::cout << "Result: " << result << std::endl;
+      });
+  std::execution::sync_wait(std::move(work));
+
+  return 0;
+}
+\end{lstlisting}
+\end{frame}
