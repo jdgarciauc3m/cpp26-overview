@@ -1,0 +1,43 @@
+\subsection{Expansion statements}
+
+\begin{frame}[t,fragile]{Iterating over a tuple}
+\begin{itemize}
+  \item A regular range-based for loop cannot be used to iterate over the elements of a tuple.
+    \begin{itemize}
+      \item Each element of a tuple may have a different type.
+    \end{itemize}
+\begin{lstlisting}
+void f() {
+  std::tuple<int, std::string, double> t{42, "hello", 3.14};
+  for (auto x : t) { // Error: cannot iterate over a tuple
+    std::println("x = {}", x);
+  }
+}
+\end{lstlisting}
+
+\mode<presentation>{\vfill\pause}
+  \item C++26 introduces \textmark{expansion statements} to enable iteration over tuple elements.
+\begin{lstlisting}
+void f() {
+  std::tuple<int, std::string, double> t{42, "hello", 3.14};
+  template for (auto & x : t) {
+    std::println("x = {}", x);
+  }
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Expansion statements over packs}
+\begin{itemize}
+  \item Expansion statements can also be used to iterate over parameter packs in templates.
+\begin{lstlisting}
+template<typename... Args>
+void print_all(Args ... args) {
+  template for (auto const & arg : {args...}) {
+    std::println("arg = {}", arg);
+  }
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
