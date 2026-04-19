@@ -1,0 +1,108 @@
+\subsection{Reflection examples}
+
+\begin{frame}[t,fragile]{Enum to string transformation}
+\begin{lstlisting}
+template<typename E>
+  requires (std::is_enum_v<E>)
+constexpr std::string_view enum_to_string(E value) {
+  if constexpr (std::meta::is_enumerable_type(^^E)) {
+    template for (constexpr auto e : std::define_static_array(std::meta::enumerators_of(^^E))) {
+      if (value == [:e:]) {
+        return std::meta::identifier_of(e);
+      }
+    }
+  }
+  return "<unnamed>";
+}
+\end{lstlisting}
+
+\mode<presentation>{\vfill\pause}
+\begin{itemize}
+  \item Returns the string representation, otherwise returns \cppcode{"<unnamed>"}.
+\begin{lstlisting}
+void f() {
+  enum class color : int { red, green, blue };
+  std::println("color::red = {}", enum_to_string(color::red)); // Output: Color::red = red
+  std::println("color(42) = {}", enum_to_string(color(42))); // Output: Color(42) = <unnamed>
+  color c = color::green;
+  std::println("c = {}", enum_to_string(c)); // Output: c = green
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{string to enum transformation}
+\begin{lstlisting}
+template<typename E>
+  requires (std::is_enum_v<E>)
+constexpr std::optional<E> string_to_enum(std::string_view name) {
+  if constexpr (std::meta::is_enumerable_type(^^E)) {
+    template for (constexpr auto e : std::define_static_array(std::meta::enumerators_of(^^E))) {
+      if (name == std::meta::identifier_of(e)) {
+        return [:e:];
+      }
+    }
+  }
+  return std::nullopt;
+}
+\end{lstlisting}
+
+\mode<presentation>{\vfill\pause}
+\begin{itemize}
+  \item Returns the corresponding enum value, otherwise returns \cppcode{std::nullopt}.
+\begin{lstlisting}
+void f() {
+  enum class color : int { red, green, blue };
+  auto c1 = string_to_enum<color>("green"); // c1 is std::optional<color> with value color::green
+  auto c2 = string_to_enum<color>("yellow"); // c2 is std::optional<color> with value std::nullopt
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{SOA versus AOS}
+\begin{lstlisting}
+template <typename T>
+struct struct_of_vectors_impl {
+  struct impl;
+
+  consteval {
+    auto ctx = std::meta::access_context::current();
+    std::vector<std::meta::info> old_members = nonstatic_data_members_of(^^T, ctx);
+    std::vector<std::meta::info> new_members = {};  
+    for (std::meta::info member : old_members) {
+        auto vector_type = substitute(^^std::vector, { type_of(member) });
+        auto mem_descr = data_member_spec(vector_type, {.name = identifier_of(member)});
+        new_members.push_back(mem_descr);
+    }
+    
+    define_aggregate(^^impl, new_members); // Inject members in impl
+  }
+};
+
+template <typename T>
+using struct_of_vectors = struct_of_vectors_impl<T>::impl;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Generating a struct of arrays from a struct}
+\begin{lstlisting}
+struct point {
+  double x;
+  double y;
+  double z;
+};
+
+void f(struct_of_vectors<point> & pos, point vel, double dt) {
+  for (auto & cx : pos.x) {
+    cx += vel.x * dt;
+  }
+  for (auto & cy : pos.y) {
+    cy += vel.y * dt;
+  }
+  for (auto & cz : pos.z) {
+    cz += vel.z * dt;
+  }
+}
+\end{lstlisting}
+\end{frame}
