@@ -48,31 +48,31 @@ ranges::transform(Ep&& exec, R&& r, OutR&& result_r, F op, Proj proj = {});
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Parallel algorithms require random access}
+\begin{frame}[t,fragile]{New parallel iterator/range interfaces require random access}
 \begin{itemize}
-    \item Iterator based parallel algorithms require random access iterators.
+    \item These new iterator based parallel algorithms require random access iterators.
       \begin{itemize}
         \item Both input and output iterators must be random access.
       \end{itemize}
 
-    \item Range based parallel algorithms require random access ranges.
+    \item These new range based parallel algorithms require random access ranges.
       \begin{itemize}
         \item Both input and output ranges must be random access.
       \end{itemize}
 
     \mode<presentation>{\vfill\pause}
-    \item \textmark{Consequences}:
+    \item \textmark{Consequences for these interfaces}:
       \begin{itemize}
-        \item Cannot be used with input, forward, or bidirectional iterators/ranges.
-        \item Cannot be used with output iterators/ranges that are not random access.
-        \item Cannot be used with some views (e.g., \cppcode{std::views::filter}).
+        \item They cannot be used with input, forward, or bidirectional iterators/ranges.
+        \item They cannot be used with output iterators/ranges that are not random access.
+        \item They cannot be used with some views (e.g., \cppcode{std::views::filter}).
       \end{itemize}
 
     \mode<presentation>{\vfill\pause}
     \item \textmark{Why?}:
       \begin{itemize}
         \item Fast division of work into chunks.
-        \item Random access allows for efficient partitioning and load balancing.
+        \item For these interfaces, random access allows for efficient partitioning and load balancing.
       \end{itemize}
 \end{itemize}
 \end{frame}
