@@ -58,7 +58,7 @@
 \begin{frame}[t,fragile]{Example usage}
 \begin{lstlisting}
 #include <execution>
-#include <iostream>
+#include <print>
 
 int main() {
   auto work = std::execution::just(42) | std::execution::then([](int value) {
@@ -66,7 +66,7 @@ int main() {
   });
 
   std::execution::sync_wait(work | std::execution::then([](int result) {
-    std::println("Result: " << result);
+    std::println("Result: {}", result);
   }));
 }
 \end{lstlisting}
@@ -75,7 +75,7 @@ int main() {
 \begin{frame}[t,fragile]{Using a thread pool scheduler}
 \begin{lstlisting}
 #include <execution>
-#include <iostream>
+#include <print>
 #include <utility>
 #include "exec/static_thread_pool.hpp" // Not standard
 
@@ -91,7 +91,7 @@ int main() {
     return value * 2;
   });
   std::execution::sender auto print = std::execution::then(multiply, [](int result) {
-    std::println("Result: " << result);
+    std::println("Result: {}", result);
   });
   std::execution::sync_wait(std::move(print));
 }
@@ -101,7 +101,7 @@ int main() {
 \begin{frame}[t,fragile]{Simplifying notation with pipeline operator}
 \begin{lstlisting}
 #include <execution>
-#include <iostream>
+#include <print>
 #include <utility>
 #include "exec/static_thread_pool.hpp" // Not standard
 
@@ -117,7 +117,7 @@ int main() {
         return value * 2;
       })
     | std::execution::then([](int result) {
-        std::println("Result: " << result);
+        std::println("Result: {}", result);
       });
   std::execution::sync_wait(std::move(work));
 }
