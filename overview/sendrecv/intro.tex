@@ -66,10 +66,8 @@ int main() {
   });
 
   std::execution::sync_wait(work | std::execution::then([](int result) {
-    std::cout << "Result: " << result << std::endl;
+    std::println("Result: " << result);
   }));
-
-  return 0;
 }
 \end{lstlisting}
 \end{frame}
@@ -93,11 +91,9 @@ int main() {
     return value * 2;
   });
   std::execution::sender auto print = std::execution::then(multiply, [](int result) {
-    std::cout << "Result: " << result << std::endl;
+    std::println("Result: " << result);
   });
   std::execution::sync_wait(std::move(print));
-
-  return 0;
 }
 \end{lstlisting}
 \end{frame}
@@ -121,11 +117,9 @@ int main() {
         return value * 2;
       })
     | std::execution::then([](int result) {
-        std::cout << "Result: " << result << std::endl;
+        std::println("Result: " << result);
       });
   std::execution::sync_wait(std::move(work));
-
-  return 0;
 }
 \end{lstlisting}
 \end{frame}
