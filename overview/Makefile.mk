@@ -4,6 +4,7 @@ include $(OVERVIEW_REFLECTION_DIR)/Makefile.mk
 include $(OVERVIEW_CONTRACTS_DIR)/Makefile.mk
 include $(OVERVIEW_SENDRECV_DIR)/Makefile.mk
 include $(OVERVIEW_PARALLEL_DIR)/Makefile.mk
+include $(OVERVIEW_OTHER_DIR)/Makefile.mk
 include $(OVERVIEW_SUMMARY_DIR)/Makefile.mk
 
 $(FINAL_OVERVIEW_PDF): $(OVERVIEW_PARTS) $(CONFIG_PARTS) | $(FINAL_DIR)
