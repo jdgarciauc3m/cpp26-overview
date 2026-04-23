@@ -1,0 +1,23 @@
+\subsection{Other features in C++26}
+
+\begin{frame}[t,fragile]{A incomplete list of features also included in C++26}
+  \begin{itemize}
+    \item \textmark{Language}:
+      \begin{itemize}
+        \item Placeholder identifier (\cppcode{auto [_, b, _] = f();}) to ignore specific elements in structured bindings.
+        \item Trivial inifinite loops are not undefined behavior anymore.
+        \item Many \cppcode{constexpr} improvements in the language.
+      \end{itemize}
+    \item \textmark{Library}:
+      \begin{itemize}
+        \item \cppcode{linalg}: A library for linear algebra.
+        \item \textgood{SIMD}: A library for portable SIMD programming.
+        \item \cppcode{std::inplace_vector}: A vector that can store a small number of elements without heap allocation.
+        \item New random number generator: \cppcode{philox_engine}.
+        \item New types \cppcode{std::indirect} and \cppcode{std::polymorphic}.
+        \item \textgood{RCU} and \textgood{hazard pointers}.
+        \item More \cppcode{constexpr} improvements in the library, include math functions, \cppcode{std::vector}, and more.
+        \item Support for \textgood{saturation arithmetic}.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
